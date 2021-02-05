@@ -11,18 +11,19 @@ app = Flask(__name__)
 def contact_us_html(name=None):
     return render_template('contact-us.html',name=name)
 
+@app.route('/send-email/')
+def send_email():
+    s = smtplib.SMTP('smtp.gmail.com',587)
+    sender_email_id = 'masandelifechoices@gmail.com'
+    receiver_email_id = 'gontyelenimasande@gmail.com'
+    password = input('enter sender email password')
 
-s = smtplib.SMTP('smtp.gmail.com',587)
-sender_email_id = 'masandelifechoices@gmail.com'
-receiver_email_id = 'gontyelenimasande@gmail.com'
-password = input('enter sender email password')
+    s.starttls()
 
-s.starttls()
+    s.login(sender_email_id,password)
 
-s.login(sender_email_id,password)
+    message = ' '
 
-message =input("Please enter your message")
+    s.send_message(sender_email_id,receiver_email_id,message)
 
-s.send_message(sender_email_id,receiver_email_id,message)
-
-s.quit()
+    s.quit()
